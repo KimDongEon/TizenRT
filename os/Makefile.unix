@@ -679,3 +679,6 @@ romfs:
 ifeq ($(CONFIG_FS_ROMFS),y)
 	$(Q) ../tools/fs/mkromfsimg.sh
 endif
+
+ctctest: context tools/mkdeps$(HOSTEXEEXT)
+
