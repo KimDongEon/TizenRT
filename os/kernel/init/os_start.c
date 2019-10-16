@@ -100,6 +100,9 @@ extern const uint32_t g_idle_topstack;
 #include <tinyara/mm/heap_regioninfo.h>
 extern bool heapx_is_init[CONFIG_MM_NHEAPS];
 
+//CTC setting
+unsigned char CTC_array[0x11100] = {0};
+
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/

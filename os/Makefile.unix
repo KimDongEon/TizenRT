@@ -713,3 +713,5 @@ endif
 smartfs: include/tinyara/config.h
 	$(Q) ./../tools/nxfuse/mknxfuse.sh
 	$(Q) ./../tools/nxfuse/mksmartfsimg.sh
+
+ctctest: context tools/mkdeps$(HOSTEXEEXT)
