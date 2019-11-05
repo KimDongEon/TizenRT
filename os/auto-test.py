@@ -4,14 +4,16 @@ from collections import OrderedDict
 
 import serial
 import time
+import re
 
 import sys
 sys.stdout.flush()
 PORT = sys.argv[1]
 PASS_COUNT = 0
+FAIL_COUNT = 0
 
 def serial_write(port, send=""):
-    print ('['+sys._getframe(3).f_code.co_name+']'+"TASH>>"+send)
+    print ('\n['+sys._getframe(3).f_code.co_name+']'+"TASH>>"+send)
 
     if port.isOpen() == False:
         try:
@@ -56,7 +58,6 @@ def serial_read(port, receive="", limit_time=1):
 
         while(True):
             lines = port.readlines()
-            print lines
             if lines != None:
                 break
             end_time = time.time()
@@ -64,14 +65,28 @@ def serial_read(port, receive="", limit_time=1):
                 print ("[serial_read_error]Time over %s" %(limit_time))
                 break
 
+        if not lines:
+            continue
+
+        lines.pop(0)
         for line in lines:
-            ret = line.find(receive)
-            if ret != -1:
-                print ('['+sys._getframe(3).f_code.co_name+']'+"TASH>>"+receive)
-                return True
+            print (line),
+            ret1 = line.find("failed")
+            ret2 = line.find("] FAIL")
+            if (ret1 != -1) | (ret2 != -1):
+                return False
 
-        return False
+        receive_cnt = len(receive)
+        judge_cnt = 0
+        for line in lines:
+            for data in receive:
+                ret = line.find(data)
+                if ret != -1:
+                    judge_cnt = judge_cnt + 1
+                    break
 
+        if (receive_cnt == judge_cnt):
+            return True
 
 def serial_way(usb_port, send, receive, limit_time):
     port = serial.Serial(usb_port, baudrate=115200, timeout=0.1)
@@ -87,39 +102,63 @@ def serial_way(usb_port, send, receive, limit_time):
 def execute_cmd(cmd, receive, port,limit_time):
     result = serial_way(port, cmd, receive, limit_time)
     return result
-    
-def cmd_pwd():
-    execute_cmd("cd /", "", PORT, 5)
-    execute_cmd("cd mnt", "", PORT, 5)
-    result = execute_cmd("pwd", "/mnt", PORT, 5)
-    
-    if result == False:
-        print (sys._getframe(0).f_code.co_name + " : Fail")
-    else:
-        print (sys._getframe(0).f_code.co_name + " : Pass")
 
-        
+
+
+###### CMD Function #####
+def cmd_ls():
+    data = []
+    data.append("/:")
+    data.append("TASH>>")
+    execute_cmd("cd /", "", PORT, 5)
+    result = execute_cmd("ls", data, PORT, 5)
+    return result
+
+def cmd_filesystem_tc():
+    data = []
+    data.append("End")
+    result = execute_cmd("filesystem_tc", data, PORT, 5)
+    return result
+
+def cmd_taskmgr_utc():
+    data = []
+    data.append("End")
+    result = execute_cmd("taskmgr_utc", data, PORT, 5)
+    return result
+
+###### CMD List #####
 CMD_LIST = OrderedDict()
+CMD_LIST['ls'] = cmd_ls
+CMD_LIST['taskmgr_utc'] = cmd_taskmgr_utc
+#CMD_LIST['filesystem_tc'] = cmd_filesystem_tc
+#CMD_LIST['pwd'] = cmd_pwd
 #CMD_LIST['cd'] = cmd_cd
 #CMD_LIST['echo'] = cmd_echo
 #CMD_LIST['cat'] = cmd_cat
 #CMD_LIST['rm'] = cmd_rm
-CMD_LIST['pwd'] = cmd_pwd
+
 #CMD_LIST['date'] = cmd_date
 #CMD_LIST['df'] = cmd_df
 #CMD_LIST['free'] = cmd_free
 #CMD_LIST['setenv'] = cmd_setenv
 #CMD_LIST['getenv'] = cmd_getenv
 #CMD_LIST['unsetenv'] = cmd_unsetenv
-#CMD_LIST['ls'] = cmd_ls
 #CMD_LIST['mkdir'] = cmd_mkdir
 #CMD_LIST['rmdir'] = cmd_rmdir
 #CMD_LIST['ps'] = cmd_ps
 #CMD_LIST['pwd'] = cmd_pwd
 #CMD_LIST['sleep'] = cmd_sleep
 #CMD_LIST['uptime'] = cmd_uptime
-#CMD_LIST['filesystem_tc'] = cmd_filesystem_tc
+
 
 if (__name__ == '__main__'):
     for key, tc in CMD_LIST.items():
-        CMD_LIST[key]()
+        result = CMD_LIST[key]()
+        if result == False:
+            print ('\n['+(CMD_LIST[key].__name__)+']' + " : FAIL")
+            FAIL_COUNT = FAIL_COUNT + 1
+        else:
+            print ('\n['+(CMD_LIST[key].__name__)+']' + " : PASS")
+            PASS_COUNT = PASS_COUNT + 1
+
+    print ("\n\n########## Auto Test End [PASS : %d, FAIL : %d] ##########"%(PASS_COUNT,FAIL_COUNT))
