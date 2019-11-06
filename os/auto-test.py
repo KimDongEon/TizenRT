@@ -27,7 +27,7 @@ def serial_write(port, send=""):
             print ("serial.serialutil.SerialException")
             time.sleep(2)
             port.open()
-    
+
     if send.find("\n") != -1:
         port.write((send).encode())
     else:
@@ -57,6 +57,7 @@ def serial_read(port, receive="", limit_time=1):
         time.sleep(0.01)
 
         while(True):
+            time.sleep(0.01)
             lines = port.readlines()
             if lines != None:
                 break
@@ -65,13 +66,13 @@ def serial_read(port, receive="", limit_time=1):
                 print ("[serial_read_error]Time over %s" %(limit_time))
                 break
 
-        if not lines:
-            continue
+        if len(lines) != 0:
+            start_time = time.time()
+            lines.pop(0)
 
-        lines.pop(0)
         for line in lines:
             print (line),
-            ret1 = line.find("failed")
+            ret1 = line.find("unregistered")
             ret2 = line.find("] FAIL")
             if (ret1 != -1) | (ret2 != -1):
                 return False
@@ -87,6 +88,11 @@ def serial_read(port, receive="", limit_time=1):
 
         if (receive_cnt == judge_cnt):
             return True
+        elif not lines:
+            end_time = time.time()
+            if (end_time - start_time >= limit_time):
+                return False
+            continue
 
 def serial_way(usb_port, send, receive, limit_time):
     port = serial.Serial(usb_port, baudrate=115200, timeout=0.1)
@@ -103,8 +109,6 @@ def execute_cmd(cmd, receive, port,limit_time):
     result = serial_way(port, cmd, receive, limit_time)
     return result
 
-
-
 ###### CMD Function #####
 def cmd_ls():
     data = []
@@ -117,20 +121,21 @@ def cmd_ls():
 def cmd_filesystem_tc():
     data = []
     data.append("End")
-    result = execute_cmd("filesystem_tc", data, PORT, 5)
+    result = execute_cmd("filesystem_tc", data, PORT, 10)
     return result
 
 def cmd_taskmgr_utc():
     data = []
     data.append("End")
-    result = execute_cmd("taskmgr_utc", data, PORT, 5)
+    result = execute_cmd("taskmgr_utc", data, PORT, 10)
     return result
 
 ###### CMD List #####
 CMD_LIST = OrderedDict()
-CMD_LIST['ls'] = cmd_ls
 CMD_LIST['taskmgr_utc'] = cmd_taskmgr_utc
-#CMD_LIST['filesystem_tc'] = cmd_filesystem_tc
+CMD_LIST['filesystem_tc'] = cmd_filesystem_tc
+CMD_LIST['rmdir'] = cmd_rmdir
+CMD_LIST['ls'] = cmd_ls
 #CMD_LIST['pwd'] = cmd_pwd
 #CMD_LIST['cd'] = cmd_cd
 #CMD_LIST['echo'] = cmd_echo
