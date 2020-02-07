@@ -176,10 +176,10 @@ extern int mount_show(void);
 
 #if defined(CONFIG_PIPES) && (CONFIG_DEV_PIPE_SIZE > 11)
 /**
-* @fn               mkfifo_test_listener
-* @description      listener thread to read data from fifo
-* @return           int
-*/
+ * @fn               mkfifo_test_listener
+ * @description      listener thread to read data from fifo
+ * @return           int
+ */
 void mkfifo_test_listener(pthread_addr_t pvarg)
 {
 	int fd, count, ret;
@@ -300,10 +300,10 @@ static void vfs_rmdir(const char *dirpath)
 }
 
 /**
-* @fn               make_long_file
-* @description      Make long size file to execute tc properly.
-* @return           int
-*/
+ * @fn               make_long_file
+ * @description      Make long size file to execute tc properly.
+ * @return           int
+ */
 static int make_long_file(void)
 {
 	FILE *fp;
@@ -327,13 +327,13 @@ static int make_long_file(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_mount
-* @brief            Mount file system
-* @scenario         Mount initialized file system
-* @apicovered       mount
-* @precondition     File system should be initialized. For smartfs, smart_initialize & mksmartfs should be excuted.
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_mount_p
+ * @brief            Mount file system
+ * @scenario         Mount initialized file system
+ * @apicovered       mount
+ * @precondition     File system should be initialized. For smartfs, smart_initialize & mksmartfs should be excuted.
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_mount_p(void)
 {
 	int ret;
@@ -357,6 +357,14 @@ static void tc_fs_vfs_mount_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_mount_exist_path_n
+ * @brief            Mount file system
+ * @scenario         Mount file system on exist path
+ * @apicovered       mount
+ * @precondition     File system should be initialized. For smartfs, smart_initialize & mksmartfs should be excuted.
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_mount_exist_path_n(void)
 {
 	int ret;
@@ -375,13 +383,13 @@ static void tc_fs_vfs_mount_exist_path_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_umount
-* @brief            Unmount file system
-* @scenario         Unmount mounted file system
-* @apicovered       umount
-* @precondition     File system should be mounted.
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_umount_p
+ * @brief            Unmount file system
+ * @scenario         Unmount mounted file system
+ * @apicovered       umount
+ * @precondition     File system should be mounted.
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_umount_p(void)
 {
 	int ret;
@@ -399,6 +407,14 @@ static void tc_fs_vfs_umount_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_umount_noexist_path_n
+ * @brief            Unmount file system
+ * @scenario         Noexist path unmount file system
+ * @apicovered       umount
+ * @precondition     File system should be mounted.
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_umount_noexist_path_n(void)
 {
 	int ret;
@@ -414,13 +430,13 @@ static void tc_fs_vfs_umount_noexist_path_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_open
-* @brief            Open file to do file operation
-* @scenario         Open specific file
-* @apicovered       open
-* @precondition     NA
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_open_p
+ * @brief            Open file to do file operation
+ * @scenario         Open specific file
+ * @apicovered       open
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_open_p(void)
 {
 	int fd;
@@ -439,6 +455,14 @@ static void tc_fs_vfs_open_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_open_invalid_path_n
+ * @brief            Open file to do file operation
+ * @scenario         Invalid path open file
+ * @apicovered       open
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_open_invalid_path_n(void)
 {
 	int fd;
@@ -497,13 +521,13 @@ static void tc_fs_vfs_fdopen_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_write
-* @brief            Write data into specific file
-* @scenario         Open file and then write data, if writing finished, close file
-* @apicovered       open, write
-* @precondition     NA
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_write_p
+ * @brief            Write data into specific file
+ * @scenario         Open file and then write data, if writing finished, close file
+ * @apicovered       open, write
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_write_p(void)
 {
 	int fd, ret;
@@ -525,6 +549,14 @@ static void tc_fs_vfs_write_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_write_invalid_len_n
+ * @brief            Write data into specific file
+ * @scenario         Open file and then invalid lengh write data
+ * @apicovered       write
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_write_invalid_len_n(void)
 {
 	int fd, ret;
@@ -547,6 +579,14 @@ static void tc_fs_vfs_write_invalid_len_n(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_write_invalid_fd_n
+ * @brief            Write data into specific file
+ * @scenario         Write data to invalid file descriptor
+ * @apicovered       write
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_write_invalid_fd_n(void)
 {
 	int ret;
@@ -561,13 +601,13 @@ static void tc_fs_vfs_write_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_read
-* @brief            Read data from specific file
-* @scenario         Open file and then read data, if reading finished, close file
-* @apicovered       open, read
-* @precondition	    NA
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_read_p
+ * @brief            Read data from specific file
+ * @scenario         Open file and then read data, if reading finished, close file
+ * @apicovered       open, read
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_read_p(void)
 {
 	int fd, ret;
@@ -591,6 +631,14 @@ static void tc_fs_vfs_read_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_read_invalid_flags_n
+ * @brief            Read after open the file for write only
+ * @scenario         Open file and then read data, if reading finished, close file
+ * @apicovered       open, read
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_read_invalid_flags_n(void)
 {
 	int fd, ret;
@@ -614,6 +662,14 @@ static void tc_fs_vfs_read_invalid_flags_n(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_read_invalid_fd_n
+ * @brief            Read after open the file for write only
+ * @scenario         Read data to invalid file descriptor
+ * @apicovered       read
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_read_invalid_fd_n(void)
 {
 	int ret;
@@ -628,13 +684,13 @@ static void tc_fs_vfs_read_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_close
-* @brief            Close file
-* @scenario         Open and close
-* @apicovered       open, close
-* @precondition     NA
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_close_p
+ * @brief            Close file
+ * @scenario         Open and close
+ * @apicovered       open, close
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_close_p(void)
 {
 	int fd, ret;
@@ -654,6 +710,14 @@ static void tc_fs_vfs_close_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_close_invalid_fd_n
+ * @brief            Close file
+ * @scenario         Close invalid file descriptor
+ * @apicovered       close
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_close_invalid_fd_n(void)
 {
 	int ret;
@@ -667,14 +731,14 @@ static void tc_fs_vfs_close_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_dup
-* @brief            Clone a file descriptor to an arbitray descriptor number
-* @scenario         Open and write data. and then Clone descriptor to fd2, write data with fd2.
-*                   After write, check it writes properly or not.
-* @apicovered       open, write, dup, read
-* @precondition	    NA
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_dup_p
+ * @brief            Clone a file descriptor to an arbitray descriptor number
+ * @scenario         Open and write data. and then Clone descriptor to fd2, write data with fd2.
+ *                   After write, check it writes properly or not.
+ * @apicovered       open, write, dup, read
+ * @precondition	 NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_dup_p(void)
 {
 	char *filename = VFS_DUP_FILE_PATH;
@@ -728,6 +792,14 @@ static void tc_fs_vfs_dup_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_dup_invalid_fd_n
+ * @brief            Clone a file descriptor to an arbitray descriptor number
+ * @scenario         Clone invalid file descriptor
+ * @apicovered       dup
+ * @precondition	 NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_dup_invalid_fd_n(void)
 {
 	int fd;
@@ -748,14 +820,14 @@ static void tc_fs_vfs_dup_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_dup2
-* @brief            Clone a file descriptor  to a specific descriptor number
-* @scenario         Open and write data. and then Clone fd1 to fd2, write data with fd1.
-*                   After write, check it writes properly or not by read data with fd2.
-* @apicovered       open, write, dup2, read
-* @precondition	    NA
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_dup2_p
+ * @brief            Clone a file descriptor  to a specific descriptor number
+ * @scenario         Open and write data. and then Clone fd1 to fd2, write data with fd1.
+ *                   After write, check it writes properly or not by read data with fd2.
+ * @apicovered       open, write, dup2, read
+ * @precondition	 NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_dup2_p(void)
 {
 	char *filename1 = VFS_DUP_FILE_PATH;
@@ -804,6 +876,14 @@ static void tc_fs_vfs_dup2_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_dup2_invalid_fd_n
+ * @brief            Clone a file descriptor to a specific descriptor number
+ * @scenario         Clone invalid file descriptor
+ * @apicovered       dup2
+ * @precondition	 NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_dup2_invalid_fd_n(void)
 {
 	ssize_t ret;
@@ -821,13 +901,13 @@ static void tc_fs_vfs_dup2_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_fsync
-* @brief            Synchronize the file state on disk to match internal, in-memory state.
-* @scenario         Open and write data. and then check fsync works properly.
-* @apicovered       open, write, fsync, read
-* @precondition     NA
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_fsync_p
+ * @brief            Synchronize the file state on disk to match internal, in-memory state.
+ * @scenario         Open and write data. and then check fsync works properly.
+ * @apicovered       open, write, fsync, read
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_fsync_p(void)
 {
 	int ret, fd, len;
@@ -855,6 +935,14 @@ static void tc_fs_vfs_fsync_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_fsync_invalid_flags_n
+ * @brief            Synchronize the file state on disk to match internal, in-memory state.
+ * @scenario         Open the data read-only and make sure fsync is working properly.
+ * @apicovered       write, fsync
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_fsync_invalid_flags_n(void)
 {
 	int ret, fd;
@@ -878,6 +966,14 @@ static void tc_fs_vfs_fsync_invalid_flags_n(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_fsync_invalid_fd_n
+ * @brief            Synchronize the file state on disk to match internal, in-memory state.
+ * @scenario         fsync to invalid file descriptor
+ * @apicovered       fsync
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_fsync_invalid_fd_n(void)
 {
 	int ret;
@@ -891,13 +987,13 @@ static void tc_fs_vfs_fsync_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_lseek
-* @brief            Move current file position to specific position
-* @scenario         Open file and move position, and then read data to check lseek works properly or not.
-* @apicovered       open, lseek, read
-* @precondition     Data(VFS_TEST_CONTENTS_2) should be written in file(VFS_FILE_PATH)
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_lseek_p
+ * @brief            Move current file position to specific position
+ * @scenario         Open file and move position, and then read data to check lseek works properly or not.
+ * @apicovered       open, lseek, read
+ * @precondition     Data(VFS_TEST_CONTENTS_2) should be written in file(VFS_FILE_PATH)
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_lseek_p(void)
 {
 	int ret, fd;
@@ -957,6 +1053,14 @@ static void tc_fs_vfs_lseek_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_lseek_invalid_fd_n
+ * @brief            Move current file position to specific position
+ * @scenario         Move position to invalid file descriptor
+ * @apicovered       lseek
+ * @precondition     Data(VFS_TEST_CONTENTS_2) should be written in file(VFS_FILE_PATH)
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_lseek_invalid_fd_n(void)
 {
 	int ret;
@@ -970,13 +1074,13 @@ static void tc_fs_vfs_lseek_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_pwrite
-* @brief            Write data at specific position of file
-* @scenario         Open and write data at specific position. And then check file written on disk.
-* @apicovered       open, pwrite, read
-* @precondition     Data(VFS_TEST_CONTENTS_2) should be written in file(VFS_FILE_PATH)
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_pwrite_p
+ * @brief            Write data at specific position of file
+ * @scenario         Open and write data at specific position. And then check file written on disk.
+ * @apicovered       open, pwrite, read
+ * @precondition     Data(VFS_TEST_CONTENTS_2) should be written in file(VFS_FILE_PATH)
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_pwrite_p(void)
 {
 	int ret, fd;
@@ -1000,6 +1104,14 @@ static void tc_fs_vfs_pwrite_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_pwrite_invalid_fd_n
+ * @brief            Write data at specific position of file
+ * @scenario         Write data at invalid file descriptor
+ * @apicovered       pwrite
+ * @precondition     Data(VFS_TEST_CONTENTS_2) should be written in file(VFS_FILE_PATH)
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_pwrite_invalid_fd_n(void)
 {
 	int ret;
@@ -1014,13 +1126,13 @@ static void tc_fs_vfs_pwrite_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_pread
-* @brief            Read data at specific position of file
-* @scenario         Open and read data from specific position.
-* @apicovered       open, pread
-* @precondition     tc_fs_vfs_pwrite should be passed
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_pread_p
+ * @brief            Read data at specific position of file
+ * @scenario         Open and read data from specific position.
+ * @apicovered       open, pread
+ * @precondition     tc_fs_vfs_pwrite should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_pread_p(void)
 {
 	int ret, fd;
@@ -1048,6 +1160,14 @@ static void tc_fs_vfs_pread_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_pread_invalid_fd_n
+ * @brief            Read data at specific position of file
+ * @scenario         read data from invalid file descriptor
+ * @apicovered       open, pread
+ * @precondition     tc_fs_vfs_pwrite should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_pread_invalid_fd_n(void)
 {
 	int ret;
@@ -1062,13 +1182,13 @@ static void tc_fs_vfs_pread_invalid_fd_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_mkdir
-* @brief            Create folders
-* @scenario         Create folder(VFS_FOLDER_PATH) and create 5 sub-folders
-* @apicovered       mkdir
-* @precondition     NA
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_mkdir_p
+ * @brief            Create folders
+ * @scenario         Create folder(VFS_FOLDER_PATH) and create 5 sub-folders
+ * @apicovered       mkdir
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_mkdir_p(void)
 {
 	int ret;
@@ -1091,6 +1211,14 @@ static void tc_fs_vfs_mkdir_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_mkdir_exist_path_n
+ * @brief            Create folders
+ * @scenario         Create folder that is the same path as already exists
+ * @apicovered       mkdir
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_mkdir_exist_path_n(void)
 {
 	int ret;
@@ -1109,6 +1237,14 @@ static void tc_fs_vfs_mkdir_exist_path_n(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_mkdir_exceed_len_n
+ * @brief            Create folders
+ * @scenario         Create folder that exceed the maximum name length
+ * @apicovered       mkdir
+ * @precondition     NA
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_mkdir_exceed_len_n(void)
 {
 	int ret;
@@ -1136,13 +1272,13 @@ static void tc_fs_vfs_mkdir_exceed_len_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_opendir
-* @brief            Open specific directory to use APIs defined in dirent.h
-* @scenario         Open specific directory
-* @apicovered       opendir
-* @precondition     tc_fs_vfs_mkdir should be passed
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_opendir_p
+ * @brief            Open specific directory to use APIs defined in dirent.h
+ * @scenario         Open specific directory
+ * @apicovered       opendir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_opendir_p(void)
 {
 	DIR *dir;
@@ -1172,6 +1308,14 @@ static void tc_fs_vfs_opendir_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_opendir_invalid_path_n
+ * @brief            Open specific directory to use APIs defined in dirent.h
+ * @scenario         Open invalid directory
+ * @apicovered       opendir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_opendir_invalid_path_n(void)
 {
 	DIR *dir;
@@ -1189,13 +1333,13 @@ static void tc_fs_vfs_opendir_invalid_path_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_readdir
-* @brief            Read contents in specific directory sequentially
-* @scenario         Read contents in specific folder(VFS_FOLDER_PATH)
-* @apicovered       opendir, readdir, closedir
-* @precondition     tc_fs_vfs_mkdir should be passed
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_readdir_p
+ * @brief            Read contents in specific directory sequentially
+ * @scenario         Read contents in specific folder(VFS_FOLDER_PATH)
+ * @apicovered       opendir, readdir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_readdir_p(void)
 {
 	int ret;
@@ -1245,6 +1389,14 @@ static void tc_fs_vfs_readdir_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_readdir_invalid_path_n
+ * @brief            Read contents in specific directory sequentially
+ * @scenario         Read contents in invalid folder
+ * @apicovered       opendir, readdir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_readdir_invalid_path_n(void)
 {
 	int ret;
@@ -1268,13 +1420,13 @@ static void tc_fs_vfs_readdir_invalid_path_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_rewinddir
-* @brief            Reset current position of directory
-* @scenario         Read contents in specific folder(VFS_FOLDER_PATH), and it reachs end of contents, reset & read again
-* @apicovered       opendir, rewinddir, closedir
-* @precondition     tc_fs_vfs_mkdir should be passed
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_rewinddir_p
+ * @brief            Reset current position of directory
+ * @scenario         Read contents in specific folder(VFS_FOLDER_PATH), and it reachs end of contents, reset & read again
+ * @apicovered       opendir, rewinddir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_rewinddir_p(void)
 {
 	int ret;
@@ -1336,6 +1488,14 @@ static void tc_fs_vfs_rewinddir_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_rewinddir_null_path_n
+ * @brief            Reset current position of directory
+ * @scenario         Reset & read again at null path
+ * @apicovered       opendir, rewinddir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_rewinddir_null_path_n(void)
 {
 	DIR *dir = NULL;
@@ -1348,13 +1508,13 @@ static void tc_fs_vfs_rewinddir_null_path_n(void)
 }
 
 /**
-* @testcase         tc_fs_vfs_seekdir
-* @brief            Move current position of directory to specific position
-* @scenario         Change position of directory and read contents
-* @apicovered       opendir, seekdir, readdir, closedir
-* @precondition     tc_fs_vfs_mkdir should be passed
-* @postcondition    NA
-*/
+ * @testcase         tc_fs_vfs_seekdir_p
+ * @brief            Move current position of directory to specific position
+ * @scenario         Change position of directory and read contents
+ * @apicovered       opendir, seekdir, readdir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_seekdir_p(void)
 {
 	int ret;
@@ -1407,6 +1567,14 @@ static void tc_fs_vfs_seekdir_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_seekdir_offset_n
+ * @brief            Move current position of directory to specific position
+ * @scenario         Change invalid position of directory and read contents
+ * @apicovered       opendir, seekdir, readdir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_seekdir_offset_n(void)
 {
 	int ret;
@@ -1438,6 +1606,14 @@ static void tc_fs_vfs_seekdir_offset_n(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_fs_vfs_seekdir_position_n
+ * @brief            Move current position of directory to specific position
+ * @scenario         Change invalid position of directory and read contents
+ * @apicovered       opendir, seekdir, readdir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_fs_vfs_seekdir_position_n(void)
 {
 	int ret;
@@ -1469,13 +1645,13 @@ static void tc_fs_vfs_seekdir_position_n(void)
 }
 
 /**
-* @testcase         fs_libc_dirent_readdir_r
-* @brief            Get position of next contents in specific directory
-* @scenario         Get next contents's position until it reachs end of contents, and check count of contents
-* @apicovered       opendir, readdir_r, closedir
-* @precondition     tc_fs_vfs_mkdir should be passed
-* @postcondition    NA
-*/
+ * @testcase         fs_libc_dirent_readdir_r
+ * @brief            Get position of next contents in specific directory
+ * @scenario         Get next contents's position until it reachs end of contents, and check count of contents
+ * @apicovered       opendir, readdir_r, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_libc_dirent_readdir_r_p(void)
 {
 	int ret, count;
@@ -1509,6 +1685,14 @@ static void tc_libc_dirent_readdir_r_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_libc_dirent_readdir_r_invalid_path_n
+ * @brief            Get position of next contents in specific directory
+ * @scenario         Directory with the invalid position is read
+ * @apicovered       opendir, readdir_r, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_libc_dirent_readdir_r_invalid_path_n(void)
 {
 	int ret;
@@ -1528,13 +1712,13 @@ static void tc_libc_dirent_readdir_r_invalid_path_n(void)
 }
 
 /**
-* @testcase         fs_libc_dirent_telldir
-* @brief            Get position of current contents in specific directory
-* @scenario         Get specific position by seekdir and check telldir returns position properly
-* @apicovered       opendir, seekdir, telldir, closedir
-* @precondition     tc_fs_vfs_mkdir should be passed
-* @postcondition    NA
-*/
+ * @testcase         fs_libc_dirent_telldir_p
+ * @brief            Get position of current contents in specific directory
+ * @scenario         Get specific position by seekdir and check telldir returns position properly
+ * @apicovered       opendir, seekdir, telldir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_libc_dirent_telldir_p(void)
 {
 	DIR *dirp;
@@ -1566,6 +1750,14 @@ static void tc_libc_dirent_telldir_p(void)
 	TC_SUCCESS_RESULT();
 }
 
+/**
+ * @testcase         tc_libc_dirent_telldir_null_stream_n
+ * @brief            Get position of current contents in specific directory
+ * @scenario         Telldir to the NULL position
+ * @apicovered       opendir, seekdir, telldir, closedir
+ * @precondition     tc_fs_vfs_mkdir should be passed
+ * @postcondition    NA
+ */
 static void tc_libc_dirent_telldir_null_stream_n(void)
 {
 	int ret;
